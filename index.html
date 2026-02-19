@@ -723,6 +723,12 @@ gateForm.addEventListener('submit', (e) => {
   const email = document.getElementById('gateEmail').value.trim();
   if (!name || !email) return;
   localStorage.setItem('mc_user', JSON.stringify({ name, email, ts: Date.now() }));
+  // Send lead to n8n webhook (fire and forget)
+  fetch('https://effortlessai.app.n8n.cloud/webhook/mc-prompts-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, source: 'mission-control-prompts', ts: new Date().toISOString() })
+  }).catch(() => {}); // Don't block on failure
   gate.style.display = 'none';
   content.classList.add('visible');
   welcomeBar.innerHTML = `Welcome, <strong>${name}</strong>! 👋 Here are your prompts.`;
