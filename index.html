@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Control Prompts — Build Your AI Command Center | Zach Babiarz</title>
+<meta name="description" content="Free prompts to build your own AI-powered Mission Control dashboard. Copy, paste, and customize.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050508;
+  --bg-card: rgba(255,255,255,0.03);
+  --bg-code: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(255,255,255,0.1);
+  --text: #e8e8ed;
+  --text-dim: #8a8a9a;
+  --text-muted: #5a5a6a;
+  --accent: #6C63FF;
+  --accent-glow: rgba(108,99,255,0.15);
+  --accent2: #00D4AA;
+  --accent3: #FF6B6B;
+  --accent4: #FFD93D;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GATE ── */
+#gate {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+#gate::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+#gate::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,212,170,0.06) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+.gate-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid var(--border-accent); border-radius: 100px;
+  font-size: 11px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 32px; background: var(--bg-card);
+  position: relative; z-index: 1;
+}
+.gate-badge .dot {
+  width: 6px; height: 6px; background: var(--accent2);
+  border-radius: 50%; box-shadow: 0 0 8px var(--accent2);
+}
+#gate h1 {
+  font-size: clamp(32px, 6vw, 48px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1;
+  margin-bottom: 16px; text-align: center; position: relative; z-index: 1;
+  background: linear-gradient(135deg, #fff 0%, #c0bfff 50%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+#gate .subtitle {
+  font-size: 18px; color: var(--text-dim); margin-bottom: 40px;
+  text-align: center; position: relative; z-index: 1;
+}
+.gate-form {
+  display: flex; flex-direction: column; gap: 14px;
+  width: 100%; max-width: 380px;
+  position: relative; z-index: 1;
+}
+.gate-form input {
+  width: 100%; padding: 14px 18px;
+  background: var(--bg-card); border: 1px solid var(--border-accent);
+  border-radius: 10px; color: var(--text); font-size: 15px;
+  font-family: 'Inter', sans-serif; outline: none;
+  transition: border-color 0.2s;
+}
+.gate-form input:focus { border-color: var(--accent); }
+.gate-form input::placeholder { color: var(--text-muted); }
+.gate-form button {
+  padding: 16px; background: var(--accent); color: #fff;
+  border: none; border-radius: 10px; font-size: 16px;
+  font-weight: 700; font-family: 'Inter', sans-serif;
+  cursor: pointer; transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.gate-form button:hover { background: #5a52e0; transform: translateY(-1px); }
+.gate-note {
+  font-size: 11px; color: var(--text-muted); text-align: center;
+  margin-top: 8px; position: relative; z-index: 1;
+}
+.gate-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-top: 40px; width: 100%; max-width: 460px;
+  position: relative; z-index: 1;
+}
+.gate-grid .card {
+  padding: 14px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: 12px; text-align: center;
+}
+.gate-grid .card .icon { font-size: 20px; margin-bottom: 4px; }
+.gate-grid .card .label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+/* ── CONTENT ── */
+#content { display: none; }
+#content.visible { display: block; }
+.container {
+  max-width: 820px; margin: 0 auto; padding: 40px 24px 80px;
+}
+
+/* ── WELCOME BAR ── */
+.welcome-bar {
+  padding: 16px 24px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 48px; text-align: center;
+  font-size: 14px; color: var(--text-dim);
+}
+.welcome-bar strong { color: var(--accent2); }
+
+/* ── TYPOGRAPHY ── */
+.section-number {
+  font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: block;
+}
+h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 16px; }
+h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; margin-top: 24px; }
+h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; margin-top: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+p { font-size: 14px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.7; }
+.lead { font-size: 15px; color: var(--text); font-weight: 400; line-height: 1.7; }
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent2); text-decoration: underline; }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 56px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+
+/* ── FEATURES ── */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 20px 0; }
+.feature { padding: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+.feature .icon { font-size: 20px; margin-bottom: 8px; }
+.feature .title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.feature .desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+/* ── STEPS ── */
+.steps { display: flex; gap: 14px; margin: 20px 0; flex-wrap: wrap; }
+.step { flex: 1; min-width: 160px; padding: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+.step-num {
+  width: 28px; height: 28px; background: var(--accent); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 10px;
+}
+.step .title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.step .desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+/* ── PROMPT BLOCKS ── */
+.prompt-block {
+  background: var(--bg-code); border: 1px solid var(--border-accent);
+  border-radius: 12px; padding: 20px; margin: 16px 0;
+  position: relative; overflow: hidden;
+}
+.prompt-block::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+.prompt-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.prompt-header .label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+.prompt-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 1.7; color: #c8c8d8;
+  white-space: pre-wrap; word-wrap: break-word;
+}
+.prompt-text .variable { color: var(--accent); font-weight: 500; }
+.prompt-text strong, .prompt-text b { color: #e0e0f0; font-weight: 600; }
+
+/* ── COPY BUTTON ── */
+.copy-btn {
+  font-size: 11px; color: var(--text-dim); padding: 6px 14px;
+  border: 1px solid var(--border-accent); border-radius: 6px; cursor: pointer;
+  background: var(--bg-card); font-family: 'Inter', sans-serif;
+  transition: all 0.2s; font-weight: 500;
+}
+.copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.copy-btn.copied { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+/* ── VARIABLES TABLE ── */
+.var-grid {
+  display: grid; grid-template-columns: 1fr 2fr; gap: 1px;
+  background: var(--border); border-radius: 10px; overflow: hidden;
+  margin: 14px 0; border: 1px solid var(--border);
+}
+.var-grid .cell { padding: 10px 14px; background: var(--bg); font-size: 13px; }
+.var-grid .cell.header { background: var(--bg-code); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+.var-grid .cell.var-name { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 12px; font-weight: 500; }
+.var-grid .cell.var-desc { color: var(--text-dim); }
+
+/* ── MODULE CARDS ── */
+.module-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; margin: 16px 0;
+  position: relative; overflow: hidden;
+}
+.module-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.module-card.mod-a::before { background: var(--accent2); }
+.module-card.mod-b::before { background: var(--accent); }
+.module-card.mod-c::before { background: var(--accent3); }
+.module-card.mod-d::before { background: var(--accent4); }
+.module-card.mod-e::before { background: #a78bfa; }
+.module-card .module-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.module-card .module-desc { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; line-height: 1.6; }
+
+/* ── MINI PROMPT ── */
+.mini-prompt {
+  background: var(--bg-code); border: 1px solid var(--border-accent);
+  border-radius: 10px; padding: 16px 18px; margin: 10px 0;
+  position: relative; overflow: hidden;
+}
+.mini-prompt::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+.mini-prompt .prompt-text { font-size: 11.5px; line-height: 1.65; }
+.mini-prompt .copy-btn { position: absolute; top: 10px; right: 10px; font-size: 10px; padding: 4px 10px; }
+
+/* ── MISC ── */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-accent), transparent); margin: 24px 0; }
+.highlight-box {
+  background: var(--accent-glow); border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+}
+.highlight-box p { color: var(--text); font-size: 13px; margin: 0; }
+.connector-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent2); margin-bottom: 8px;
+}
+
+/* ── CLOSING ── */
+.closing {
+  text-align: center; padding: 60px 0 40px;
+  position: relative;
+}
+.closing::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+.closing h2 { font-size: 32px; margin-bottom: 14px; position: relative; }
+.closing .url {
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent);
+  padding: 10px 24px; border: 1px solid var(--border-accent);
+  border-radius: 8px; background: var(--bg-code); margin: 20px 0; display: inline-block;
+  transition: all 0.2s; position: relative;
+}
+.closing .url:hover { background: var(--accent); color: #fff; text-decoration: none; }
+.closing .built-with { font-size: 11px; color: var(--text-muted); margin-top: 36px; letter-spacing: 1px; position: relative; }
+
+/* ── BACK TO TOP ── */
+#back-to-top {
+  position: fixed; bottom: 30px; right: 30px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 20px; cursor: pointer; opacity: 0;
+  transition: all 0.3s; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+}
+#back-to-top.visible { opacity: 1; }
+#back-to-top:hover { background: #5a52e0; transform: translateY(-2px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .container { padding: 24px 16px 60px; }
+  .features { grid-template-columns: 1fr; }
+  .steps { flex-direction: column; }
+  .var-grid { grid-template-columns: 1fr; }
+  .gate-grid { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .prompt-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LEAD GATE ═══════════════ -->
+<div id="gate">
+  <div class="gate-badge"><span class="dot"></span> Open Source AI Dashboard</div>
+  <h1>MISSION CONTROL<br>PROMPTS</h1>
+  <div class="subtitle">Build Your AI-Powered Command Center</div>
+  <form class="gate-form" id="gateForm">
+    <input type="text" id="gateName" placeholder="Your first name" required>
+    <input type="email" id="gateEmail" placeholder="Your email" required>
+    <button type="submit">🚀 Get the Prompts — Free</button>
+  </form>
+  <p class="gate-note">No spam. Just prompts. Unsubscribe anytime.</p>
+  <div class="gate-grid">
+    <div class="card"><div class="icon">🏗️</div><div class="label">Foundation</div></div>
+    <div class="card"><div class="icon">⚡</div><div class="label">Modules</div></div>
+    <div class="card"><div class="icon">🔧</div><div class="label">Engine</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div id="content">
+<div class="container">
+
+  <div class="welcome-bar" id="welcomeBar">Welcome! 👋 Scroll down to get your prompts.</div>
+
+  <!-- ── INTRO ── -->
+  <div class="section">
+    <span class="section-number">Introduction</span>
+    <h2>What is Mission Control?</h2>
+    <p class="lead">Mission Control is a single-file HTML dashboard that serves as your personal command center — tracking goals, projects, revenue, AI agents, and more. All in one place on your desktop.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="icon">📄</div>
+        <div class="title">Single HTML File</div>
+        <div class="desc">No frameworks, no deploys, no dependencies. Just one file you open in your browser.</div>
+      </div>
+      <div class="feature">
+        <div class="icon">🤖</div>
+        <div class="title">AI-Built</div>
+        <div class="desc">Copy a prompt, paste it into Claude or ChatGPT, and get a complete working dashboard in seconds.</div>
+      </div>
+      <div class="feature">
+        <div class="icon">🎨</div>
+        <div class="title">Fully Yours</div>
+        <div class="desc">Every pixel is customizable. Change colors, add sections, make it match your workflow perfectly.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Why It Works</h3>
+    <p>Most dashboards require accounts, subscriptions, and fighting with someone else's idea of what you need. Mission Control flips that — it's a single HTML file:</p>
+    <p>✦ &nbsp;Opens instantly, works offline, zero loading screens<br>
+       ✦ &nbsp;Your data stays in your browser (localStorage) — no cloud, no accounts<br>
+       ✦ &nbsp;AI builds it to YOUR spec — not a template you have to hack around<br>
+       ✦ &nbsp;Version control it, back it up, share it — it's just a file</p>
+
+    <div class="divider"></div>
+
+    <h3>How to Use This Guide</h3>
+    <p>This guide contains <strong style="color:var(--text)">3 prompts</strong> that build progressively. Each one is a complete, copy-paste-ready prompt designed to produce production-quality code.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="title">Copy the Prompt</div>
+        <div class="desc">Click the copy button on any prompt block to copy it to your clipboard.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="title">Fill in [Brackets]</div>
+        <div class="desc">Replace variables like [YOUR_NAME] with your actual info.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="title">Paste &amp; Build</div>
+        <div class="desc">Send to Claude or ChatGPT. Save the output as an HTML file. Done.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROMPT 1 INTRO ── -->
+  <div class="section">
+    <span class="section-number">Prompt 01</span>
+    <h2>The Foundation</h2>
+    <p class="lead">This mega-prompt builds your complete Mission Control dashboard from scratch — a premium dark-theme command center with live data, smooth animations, and persistent storage. One prompt, one file, zero dependencies.</p>
+
+    <h3>What You'll Get</h3>
+    <p>A 2000+ line, production-quality HTML file containing:</p>
+    <p>
+      ✦ &nbsp;Dark glassmorphism theme with frosted-glass cards and subtle glow effects<br>
+      ✦ &nbsp;Sticky header with navigation tabs, live clock, and status indicator<br>
+      ✦ &nbsp;<strong style="color:var(--text)">Dashboard tab</strong> — Welcome greeting, 4 metric cards, activity feed, priorities<br>
+      ✦ &nbsp;<strong style="color:var(--text)">Projects tab</strong> — Full Kanban board (Backlog → In Progress → Done)<br>
+      ✦ &nbsp;<strong style="color:var(--text)">Timeline tab</strong> — Phase-based roadmap with milestones<br>
+      ✦ &nbsp;<strong style="color:var(--text)">Notes tab</strong> — Quick capture with auto-save<br>
+      ✦ &nbsp;All data persisted to localStorage — nothing lost on refresh<br>
+      ✦ &nbsp;Keyboard shortcut (Cmd+K) for search, responsive design, smooth animations
+    </p>
+
+    <h3>Variables to Fill In</h3>
+    <div class="var-grid">
+      <div class="cell header">Variable</div>
+      <div class="cell header">What to Enter</div>
+      <div class="cell var-name">[YOUR_NAME]</div>
+      <div class="cell var-desc">Your first name (used in the welcome greeting)</div>
+      <div class="cell var-name">[YOUR_BUSINESS]</div>
+      <div class="cell var-desc">Your company or project name</div>
+      <div class="cell var-name">[YOUR_ROLE]</div>
+      <div class="cell var-desc">Your title — CEO, Creator, Developer, etc.</div>
+      <div class="cell var-name">[MAIN_GOAL]</div>
+      <div class="cell var-desc">Your primary goal (e.g., "Hit $10K MRR")</div>
+      <div class="cell var-name">[GOAL_DEADLINE]</div>
+      <div class="cell var-desc">Target date (e.g., "December 2025")</div>
+      <div class="cell var-name">[GOAL_METRIC]</div>
+      <div class="cell var-desc">The key number you're tracking</div>
+      <div class="cell var-name">[COLOR_ACCENT]</div>
+      <div class="cell var-desc">Hex color for accents (e.g., #6C63FF, #00D4AA)</div>
+    </div>
+
+    <div class="highlight-box">
+      <p>💡 <strong>Tip:</strong> Use Claude (Sonnet or Opus) for best results. The prompt is optimized for long-form code generation. If using ChatGPT, use GPT-4 with a "write the complete file" follow-up if it truncates.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PROMPT 1 CODE -->
+    <h3>The Foundation Prompt</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">
+        <span class="label">📋 Complete Prompt</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Click to Copy</button>
+      </div>
+      <div class="prompt-text">I want you to build me a Mission Control dashboard as a single HTML file. This is my personal command center for tracking my life and business.
+
+<b>About Me:</b>
+- Name: <span class="variable">[YOUR_NAME]</span>
+- Business/Role: <span class="variable">[YOUR_BUSINESS]</span> — <span class="variable">[YOUR_ROLE]</span>
+- Main Goal: <span class="variable">[MAIN_GOAL]</span> by <span class="variable">[GOAL_DEADLINE]</span>
+- Key Metric: <span class="variable">[GOAL_METRIC]</span>
+
+<b>Technical Requirements:</b>
+- Single self-contained HTML file (inline CSS + JS, no external dependencies except Google Fonts Inter)
+- Dark theme with glassmorphism: primary bg #050508, cards with backdrop-filter blur, subtle borders rgba(255,255,255,0.06)
+- Accent color: <span class="variable">[COLOR_ACCENT]</span> (use for highlights, active states, glows)
+- Font: Inter from Google Fonts
+- Fully responsive, smooth animations (fadeInUp on cards, pulse on status dot)
+- All data saved to localStorage so nothing is lost on refresh
+
+<b>Layout:</b>
+- Sticky frosted-glass header: logo/title left, tab navigation center, search bar + live status dot right
+- Tabs: 📊 Dashboard, 📋 Projects, 📅 Timeline, 📝 Notes
+- Main content max-width 1600px, centered, 2.5rem padding
+
+<b>Dashboard Tab:</b>
+- Welcome bar: "Good [morning/afternoon/evening], [NAME]" with live date/time
+- 4 metric cards in a grid: each with colored top accent bar (3px), icon, label, value, and trend indicator
+  Cards: <span class="variable">[GOAL_METRIC]</span> progress, Active Projects count, Tasks Today count, Days to Goal countdown
+- Activity feed: scrollable list of recent items with timestamps (stored in localStorage)
+- Top Priorities section: editable list with checkboxes, add new priority button
+
+<b>Projects Tab:</b>
+- Kanban board with 3 columns: Backlog, In Progress, Done
+- Task cards: title, description preview, priority badge (high/medium/low with colors), created date
+- Add task button per column, click card to edit, delete option
+- All tasks persisted to localStorage
+
+<b>Timeline Tab:</b>
+- Visual roadmap with phases displayed vertically
+- Each phase: title, date range, description, list of milestones with completion checkmarks
+- Current phase highlighted with accent glow
+- Data defined in a JS config object (easy to edit)
+
+<b>Notes Tab:</b>
+- Large textarea with markdown-style formatting
+- Auto-saves to localStorage on every keystroke
+- Character count, last saved timestamp
+- Clean minimal design
+
+<b>Code Quality:</b>
+- Clean, well-organized code with comments for each section
+- CSS variables for all colors/spacing (easy to re-theme)
+- Smooth transitions on all interactive elements
+- Keyboard shortcut: Cmd/Ctrl+K to focus search
+
+Build the complete file. Make it production quality — this should look like a premium SaaS dashboard, not a hobby project.</div>
+    </div>
+  </div>
+
+  <!-- ── PROMPT 2: MODULES ── -->
+  <div class="section">
+    <span class="section-number">Prompt 02</span>
+    <h2>The Modules</h2>
+    <p>Now that you have the foundation, add power modules. Each prompt adds a new tab to your existing dashboard.</p>
+
+    <div class="highlight-box">
+      <p>💡 <strong>How to use:</strong> Open a new conversation with your AI. Paste your existing mission-control.html file first, then paste the module prompt below it. The AI will return an updated file with the new tab integrated.</p>
+    </div>
+
+    <!-- Module A -->
+    <div class="module-card mod-a">
+      <div class="module-title">💰 Module A: Revenue Tracker</div>
+      <div class="module-desc">Track MRR, manage clients, visualize growth, and project annual revenue.</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Add a 💰 Revenue tab to my Mission Control. Include:
+- Monthly revenue goal with visual gauge (circular or bar)
+- Revenue chart showing last 6 months (simple bar chart, CSS-only or canvas)
+- Client list with: name, monthly value, status (active/pending/churned), start date
+- Add/edit/remove clients, auto-calculate MRR
+- Revenue projections section: if current MRR continues, show projected annual + monthly growth needed to hit goal
+- All data in localStorage
+- Match the existing dark glassmorphism theme and animation style</div>
+      </div>
+    </div>
+
+    <!-- Module B -->
+    <div class="module-card mod-b">
+      <div class="module-title">🏢 Module B: AI Agent Command Center</div>
+      <div class="module-desc">Manage your AI agents, track their activity, send tasks, and log executive decisions.</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Add a 🏢 Command Center tab to my Mission Control for managing my AI agents/team. Include:
+- Agent cards in a grid: each shows name, role/title, status (online/busy/offline with colored dots), model being used, last active timestamp
+- Click agent card to open a slide-out detail panel with: full description, capabilities list, recent activity log, performance notes
+- "Send Task" button that opens a modal with a text area (simulates sending tasks — saves to agent's activity log)
+- Executive Decisions section below agents: list of key decisions made with date, question asked, decision summary, which agents were consulted
+- Store all agent data in localStorage, include 3-4 sample agents to start</div>
+      </div>
+    </div>
+
+    <!-- Module C -->
+    <div class="module-card mod-c">
+      <div class="module-title">🎬 Module C: YouTube Studio</div>
+      <div class="module-desc">Plan video content, track growth milestones, and manage a content calendar.</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Add a 🎬 YouTube tab to my Mission Control for planning video content. Include:
+- Video ideas pipeline: cards with title, topic, status (idea/scripting/filming/editing/published), target publish date
+- Add/edit ideas, move between statuses
+- YouTube growth tracker: current sub count (editable), milestone levels with fun titles (e.g., "Rising Creator" at 1K, "Growth Engine" at 10K), XP-style progress bar to next milestone
+- Content calendar: simple month grid showing planned publish dates
+- All data in localStorage, match existing theme</div>
+      </div>
+    </div>
+
+    <!-- Module D -->
+    <div class="module-card mod-d">
+      <div class="module-title">📞 Module D: Meeting Prep</div>
+      <div class="module-desc">Never walk into a meeting unprepared. Track agendas, notes, and action items.</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Add a 📞 Meetings tab to my Mission Control. Include:
+- Upcoming meetings list: title, date/time, attendee(s), type (call/zoom/in-person), prep notes
+- Add/edit/delete meetings
+- Each meeting card expands to show: agenda items (editable checklist), notes textarea, action items that come out of it
+- Past meetings archive (auto-moves when date passes)
+- Today's meetings highlighted at top with countdown timers
+- localStorage persistence, match theme</div>
+      </div>
+    </div>
+
+    <!-- Module E -->
+    <div class="module-card mod-e">
+      <div class="module-title">📡 Module E: Daily Intel Feed</div>
+      <div class="module-desc">Curate your own intel feed — AI news, trends, competitor moves, and opportunities.</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Add a 📡 Intel tab to my Mission Control. Include:
+- Sections for different intel categories: AI News, Industry Trends, Competitor Watch, Opportunities
+- Each item: title, summary, source link, date added, importance tag (🔥 hot / ⚡ notable / 📌 reference)
+- Add new intel items with a simple form
+- Filter by category and importance
+- "Daily Brief" section at top: 3-5 most important items auto-sorted by date
+- localStorage persistence, match theme</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROMPT 3: ENGINE ── -->
+  <div class="section">
+    <span class="section-number">Prompt 03</span>
+    <h2>The Engine</h2>
+    <p>Make Mission Control a living dashboard. This prompt builds a lightweight Node.js server for live data, weather, and backup.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-header">
+        <span class="label">📋 Complete Prompt</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Click to Copy</button>
+      </div>
+      <div class="prompt-text">I need a lightweight local server to power my Mission Control dashboard with live data. Build me a complete Node.js server with these specs:
+
+<b>Setup:</b>
+- Single file: server.js (or server.mjs)
+- Port: 8899
+- Serve my mission-control.html file at the root
+- CORS enabled for local development
+- No heavy frameworks — just built-in Node http/https modules (or Express if cleaner)
+
+<b>API Endpoints:</b>
+Create RESTful endpoints that Mission Control can fetch from:
+
+1. GET /mc/status — Returns system status:
+   - Server uptime, last data refresh timestamp, connection health: "online"
+
+2. GET /mc/data — Returns dashboard data:
+   - Read from a local JSON file (mc-data.json) that stores all dashboard state
+
+3. POST /mc/data — Save dashboard data:
+   - Accepts JSON body, writes to mc-data.json
+   - Lets Mission Control sync its localStorage to the server as backup
+
+4. GET /mc/weather?city=<span class="variable">[CITY]</span> — Fetch current weather:
+   - Use wttr.in API (free, no key): https://wttr.in/<span class="variable">[CITY]</span>?format=j1
+   - Return: temperature, condition, feels_like
+
+5. GET /mc/activity — Returns recent activity log:
+   - Read from mc-activity.json, returns last 50 entries
+
+6. POST /mc/activity — Add activity entry:
+   - Appends to mc-activity.json with timestamp
+
+<b>Auto-start (macOS):</b>
+Also generate a LaunchAgent plist file that auto-starts this server on login:
+- File: ~/Library/LaunchAgents/com.missioncontrol.server.plist
+- Points to the server.js file
+- Runs on load, restarts if crashed
+- Include the terminal commands to install it
+
+<b>Setup instructions:</b>
+Print clear step-by-step setup instructions:
+1. Save server.js to a folder
+2. Run `node server.js`
+3. Open http://localhost:8899
+4. (Optional) Install the LaunchAgent for auto-start
+
+Keep it simple. No database, no auth, no complexity. Just a clean local server that makes Mission Control come alive.</div>
+    </div>
+  </div>
+
+  <!-- ── BONUS: CONNECTION ── -->
+  <div class="section">
+    <span class="section-number">Prompt 03 — Bonus</span>
+    <h3>Connecting Your Dashboard to the Server</h3>
+    <p>Once your server is running, use this mini-prompt to wire up your dashboard:</p>
+
+    <div class="module-card mod-a">
+      <div class="connector-label">⚡ Connection Prompt</div>
+      <div class="mini-prompt">
+        <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy</button>
+        <div class="prompt-text">Update my mission-control.html to connect to the local server at http://localhost:8899. Add:
+
+1. On page load, fetch GET /mc/data and merge with localStorage (server = backup, localStorage = primary)
+2. Every 5 minutes, POST current localStorage state to /mc/data as backup
+3. Fetch weather from GET /mc/weather?city=<span class="variable">[YOUR_CITY]</span> and display temp + condition in the header next to the status dot
+4. When any data changes, POST to /mc/activity with a description of what changed
+5. Update the status dot: green = server connected, red = offline (fallback to localStorage-only mode)
+6. Add a small "Server: Online/Offline" indicator in the header
+
+Keep all existing localStorage functionality as the primary data layer. The server is a backup + data enrichment layer, not a replacement.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p>💡 <strong>Pro tip:</strong> You don't need The Engine to use Mission Control. The HTML file works perfectly standalone. The server just adds superpowers — live weather, backup, and a clean localhost URL.</p>
+    </div>
+  </div>
+
+  <!-- ── CLOSING ── -->
+  <div class="closing">
+    <div class="gate-badge" style="margin-bottom:36px"><span class="dot"></span> You're Ready</div>
+    <h2>Now Make It Yours</h2>
+    <p style="font-size:16px; color:var(--text-dim); max-width:480px; margin: 0 auto 16px;">These prompts are starting points. The best Mission Control is the one built around <em>your</em> life, <em>your</em> goals, <em>your</em> workflow. Customize relentlessly.</p>
+    <p style="font-size:14px; color:var(--text-dim); max-width:440px; margin: 0 auto 40px;">Change the colors. Add new tabs. Rip out what you don't need. Ask the AI to rebuild sections. This is <em>your</em> command center.</p>
+
+    <div class="divider" style="max-width:200px; margin: 32px auto;"></div>
+
+    <p style="font-size:14px; color:var(--text-dim); margin-bottom:12px;">Watch the full build series on YouTube</p>
+    <a href="https://youtube.com/@Zach_Babiarz_ai" target="_blank" rel="noopener" class="url">youtube.com/@Zach_Babiarz_ai</a>
+
+    <p style="font-size:13px; color:var(--text-dim); margin-top:40px; margin-bottom:6px;">Questions? Ideas? Show me what you built.</p>
+    <p style="font-size:13px; color:var(--text-muted);">Drop a comment on any video — I read every single one.</p>
+
+    <div class="built-with" style="margin-top:52px;">
+      BUILT WITH OPENCLAW + CLAUDE<br>
+      <span style="font-size:10px; color:var(--text-muted); margin-top:4px; display:inline-block;">© 2026 Zach Babiarz. Share freely.</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- Back to Top -->
+<button id="back-to-top" onclick="window.scrollTo({top:0})">↑</button>
+
+<script>
+// ── Gate Logic ──
+const gate = document.getElementById('gate');
+const content = document.getElementById('content');
+const welcomeBar = document.getElementById('welcomeBar');
+const gateForm = document.getElementById('gateForm');
+
+function checkAccess() {
+  const user = localStorage.getItem('mc_user');
+  if (user) {
+    const data = JSON.parse(user);
+    gate.style.display = 'none';
+    content.classList.add('visible');
+    welcomeBar.innerHTML = `Welcome back, <strong>${data.name}</strong>! 👋 Scroll down to get your prompts.`;
+  }
+}
+
+gateForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('gateName').value.trim();
+  const email = document.getElementById('gateEmail').value.trim();
+  if (!name || !email) return;
+  localStorage.setItem('mc_user', JSON.stringify({ name, email, ts: Date.now() }));
+  gate.style.display = 'none';
+  content.classList.add('visible');
+  welcomeBar.innerHTML = `Welcome, <strong>${name}</strong>! 👋 Here are your prompts.`;
+  window.scrollTo({ top: 0 });
+});
+
+checkAccess();
+
+// ── Copy Logic ──
+function copyPrompt(btn) {
+  const block = btn.closest('.prompt-block, .mini-prompt');
+  const textEl = block.querySelector('.prompt-text');
+  const text = textEl.innerText || textEl.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = btn.dataset.label || '📋 Click to Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = btn.dataset.label || '📋 Click to Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Store original labels
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.dataset.label = btn.textContent;
+});
+
+// ── Back to Top ──
+const btt = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+
+</body>
+</html>
