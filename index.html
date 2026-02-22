@@ -95,6 +95,7 @@ body {
   transition: border-color 0.2s;
 }
 .gate-form input:focus { border-color: var(--accent); }
+.gate-form input.invalid { border-color: var(--accent3); box-shadow: 0 0 12px rgba(255,107,107,0.15); }
 .gate-form input::placeholder { color: var(--text-muted); }
 .gate-form button {
   padding: 16px; background: var(--accent); color: #fff;
@@ -468,6 +469,7 @@ a:hover { color: var(--accent2); text-decoration: underline; }
     <button type="submit">🚀 Get the Prompts — Free</button>
   </form>
   <p class="gate-note">No spam. Just prompts. Unsubscribe anytime.</p>
+  <p style="font-size:9px; color:var(--text-muted); text-align:center; margin-top:12px; max-width:380px; line-height:1.5; position:relative; z-index:1; opacity:0.7;">By entering your email, you agree to receive occasional emails from Zach Babiarz. You can unsubscribe at any time. We respect your privacy and will never share your information.</p>
   <div class="gate-grid">
     <div class="card"><div class="icon">🏗️</div><div class="label">Foundation</div></div>
     <div class="card"><div class="icon">⚡</div><div class="label">Modules</div></div>
@@ -1176,7 +1178,15 @@ gateForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = document.getElementById('gateName').value.trim();
   const email = document.getElementById('gateEmail').value.trim();
+  const emailInput = document.getElementById('gateEmail');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!name || !email) return;
+  if (!emailRegex.test(email)) {
+    emailInput.classList.add('invalid');
+    emailInput.focus();
+    return;
+  }
+  emailInput.classList.remove('invalid');
   localStorage.setItem('mc_user', JSON.stringify({ name, email, ts: Date.now() }));
   // Send lead to n8n webhook (fire and forget)
   fetch('https://effortlessai.app.n8n.cloud/webhook/mc-prompts-lead', {
@@ -1191,6 +1201,12 @@ gateForm.addEventListener('submit', (e) => {
 });
 
 checkAccess();
+
+// Clear invalid state on typing
+document.getElementById('gateEmail').addEventListener('input', function() {
+  this.classList.remove('invalid');
+});
+
 
 // ── Copy Logic ──
 function copyPrompt(btn) {
