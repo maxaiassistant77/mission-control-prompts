@@ -1569,11 +1569,16 @@ document.getElementById('confirmSubmit').addEventListener('click', () => {
   localStorage.setItem('mc_user', JSON.stringify({ name, email, phone, ts: Date.now() }));
   // Track conversion event
   if (window.va) window.va('event', { name: 'lead_signup', data: { source: 'mission-control-prompts' } });
+  // Capture UTM params for source tracking
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmCampaign = urlParams.get('utm_campaign') || '';
+  const utmSource = urlParams.get('utm_source') || '';
+  const leadSource = utmCampaign ? 'mc-prompts-' + utmCampaign : 'mission-control-prompts';
   // Send lead directly to GHL (skip n8n)
   fetch('/api/lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, phone, source: 'mission-control-prompts', ts: new Date().toISOString() })
+    body: JSON.stringify({ name, email, phone, source: leadSource, ts: new Date().toISOString() })
   }).catch(() => {}); // Don't block on failure
   document.getElementById('confirmModal').style.display = 'none';
   gate.style.display = 'none';
