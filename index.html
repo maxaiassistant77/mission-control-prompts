@@ -534,7 +534,24 @@ a:hover { color: var(--accent2); text-decoration: underline; }
     <button type="submit">🚀 Get the Prompts — Free</button>
   </form>
   <p class="gate-note">No spam. Just prompts. Unsubscribe anytime.</p>
-  <p style="font-size:9px; color:var(--text-muted); text-align:center; margin-top:12px; max-width:380px; line-height:1.5; position:relative; z-index:1; opacity:0.7;">By entering your email, you agree to receive occasional emails from Zach Babiarz. You can unsubscribe at any time. We respect your privacy and will never share your information.</p>
+  <p style="font-size:9px; color:var(--text-muted); text-align:center; margin-top:12px; max-width:380px; line-height:1.5; position:relative; z-index:1; opacity:0.7;">By submitting this form, you consent to receive emails and/or phone calls/texts from Zach Babiarz and Effortless AI at the email address and phone number provided. Message & data rates may apply. You may opt out at any time by replying STOP or clicking unsubscribe. We respect your privacy and will never sell or share your information.</p>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#12121a; border:1px solid var(--border-accent); border-radius:16px; padding:32px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <h3 style="margin-bottom:8px; font-size:20px; color:var(--text);">Confirm Your Info</h3>
+      <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px;">Please make sure this is accurate so we can send you the prompts:</p>
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:left; margin-bottom:24px;">
+        <div style="margin-bottom:10px;"><span style="color:var(--text-dim); font-size:12px;">Name</span><br><span id="confirmName" style="color:var(--text); font-size:15px; font-weight:500;"></span></div>
+        <div style="margin-bottom:10px;"><span style="color:var(--text-dim); font-size:12px;">Email</span><br><span id="confirmEmail" style="color:var(--text); font-size:15px; font-weight:500;"></span></div>
+        <div><span style="color:var(--text-dim); font-size:12px;">Phone</span><br><span id="confirmPhone" style="color:var(--text); font-size:15px; font-weight:500;"></span></div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <button id="confirmBack" style="flex:1; padding:12px; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:10px; color:var(--text-dim); font-size:14px; font-family:'Inter',sans-serif; cursor:pointer; transition:border-color 0.2s;">✏️ Edit</button>
+        <button id="confirmSubmit" style="flex:1; padding:12px; background:var(--accent); border:none; border-radius:10px; color:#fff; font-size:14px; font-weight:600; font-family:'Inter',sans-serif; cursor:pointer; transition:opacity 0.2s;">✅ Confirm</button>
+      </div>
+    </div>
+  </div>
   <div class="gate-grid">
     <div class="card"><div class="icon">🏗️</div><div class="label">Foundation</div></div>
     <div class="card"><div class="icon">⚡</div><div class="label">Modules</div></div>
@@ -1502,6 +1519,9 @@ function checkAccess() {
   }
 }
 
+// Pending lead data for confirmation
+let pendingLead = null;
+
 gateForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = document.getElementById('gateName').value.trim();
@@ -1526,6 +1546,26 @@ gateForm.addEventListener('submit', (e) => {
   emailInput.classList.remove('invalid');
   phoneInput.classList.remove('invalid');
   const phone = countryCode + phoneRaw;
+
+  // Store pending data and show confirmation modal
+  pendingLead = { name, email, phone, countryCode, phoneRaw };
+  document.getElementById('confirmName').textContent = name;
+  document.getElementById('confirmEmail').textContent = email;
+  document.getElementById('confirmPhone').textContent = countryCode + ' ' + phoneRaw;
+  const modal = document.getElementById('confirmModal');
+  modal.style.display = 'flex';
+});
+
+// Edit button — close modal, let them fix their info
+document.getElementById('confirmBack').addEventListener('click', () => {
+  document.getElementById('confirmModal').style.display = 'none';
+  pendingLead = null;
+});
+
+// Confirm button — actually submit the lead
+document.getElementById('confirmSubmit').addEventListener('click', () => {
+  if (!pendingLead) return;
+  const { name, email, phone } = pendingLead;
   localStorage.setItem('mc_user', JSON.stringify({ name, email, phone, ts: Date.now() }));
   // Track conversion event
   if (window.va) window.va('event', { name: 'lead_signup', data: { source: 'mission-control-prompts' } });
@@ -1535,10 +1575,12 @@ gateForm.addEventListener('submit', (e) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, phone, source: 'mission-control-prompts', ts: new Date().toISOString() })
   }).catch(() => {}); // Don't block on failure
+  document.getElementById('confirmModal').style.display = 'none';
   gate.style.display = 'none';
   content.classList.add('visible');
   welcomeBar.innerHTML = `Welcome, <strong>${name}</strong>! 👋 Here are your prompts.`;
   window.scrollTo({ top: 0 });
+  pendingLead = null;
 });
 
 checkAccess();
