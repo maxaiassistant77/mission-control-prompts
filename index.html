@@ -1264,6 +1264,8 @@ gateForm.addEventListener('submit', (e) => {
   phoneInput.classList.remove('invalid');
   const phone = countryCode + phoneRaw;
   localStorage.setItem('mc_user', JSON.stringify({ name, email, phone, ts: Date.now() }));
+  // Track conversion event
+  if (window.va) window.va('event', { name: 'lead_signup', data: { source: 'mission-control-prompts' } });
   // Send lead to n8n webhook (fire and forget)
   fetch('https://effortlessai.app.n8n.cloud/webhook/mc-prompts-lead', {
     method: 'POST',
@@ -1329,12 +1331,14 @@ function switchTab(tab, btn) {
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({ top: document.querySelector('.section-switcher').offsetTop - 20, behavior: 'smooth' });
+  if (window.va) window.va('event', { name: 'tab_switch', data: { tab: tab } });
 }
 
 // ── Skill Install Toggles ──
 function toggleInstall(id) {
   const el = document.getElementById(id);
   el.classList.toggle('visible');
+  if (window.va) window.va('event', { name: 'skill_action', data: { action: id } });
 }
 
 // ── Copy Text Helper ──
@@ -1368,5 +1372,7 @@ window.addEventListener('scroll', () => {
 });
 </script>
 
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
