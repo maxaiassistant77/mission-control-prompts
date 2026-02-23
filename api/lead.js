@@ -30,11 +30,12 @@ export default async function handler(req, res) {
       locationId: GHL_LOCATION_ID,
     };
 
-    const ghlRes = await fetch('https://rest.gohighlevel.com/v1/contacts/', {
+    const ghlRes = await fetch('https://services.leadconnectorhq.com/contacts/', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${GHL_API_KEY}`,
         'Content-Type': 'application/json',
+        'Version': '2021-07-28',
       },
       body: JSON.stringify(ghlBody),
     });
