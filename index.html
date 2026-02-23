@@ -97,6 +97,21 @@ body {
 .gate-form input:focus { border-color: var(--accent); }
 .gate-form input.invalid { border-color: var(--accent3); box-shadow: 0 0 12px rgba(255,107,107,0.15); }
 .gate-form input::placeholder { color: var(--text-muted); }
+.phone-row {
+  display: flex; gap: 8px; width: 100%;
+}
+.phone-row select {
+  width: 110px; flex-shrink: 0; padding: 14px 8px; border: 1px solid var(--border-accent);
+  border-radius: 10px; background: var(--bg-card); color: var(--text);
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a8a9a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  cursor: pointer; outline: none; transition: border-color 0.2s;
+}
+.phone-row select:focus { border-color: var(--accent); }
+.phone-row select.invalid, .phone-row input.invalid { border-color: var(--accent3); box-shadow: 0 0 12px rgba(255,107,107,0.15); }
+.phone-row input { flex: 1; min-width: 0; }
 .gate-form button {
   padding: 16px; background: var(--accent); color: #fff;
   border: none; border-radius: 10px; font-size: 16px;
@@ -448,6 +463,7 @@ a:hover { color: var(--accent2); text-decoration: underline; }
   .var-grid { grid-template-columns: 1fr; }
   .gate-grid { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .prompt-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .phone-row select { width: 95px; font-size: 12px; padding: 14px 6px; }
   .section-switcher { width: 100%; }
   .section-switcher button { flex: 1; justify-content: center; padding: 12px 16px; font-size: 13px; }
   .skill-card-features { grid-template-columns: 1fr; }
@@ -466,6 +482,55 @@ a:hover { color: var(--accent2); text-decoration: underline; }
   <form class="gate-form" id="gateForm">
     <input type="text" id="gateName" placeholder="Your first name" required>
     <input type="email" id="gateEmail" placeholder="Your email" required>
+    <div class="phone-row">
+      <select id="gateCountryCode" required>
+        <option value="+1">🇺🇸 +1</option>
+        <option value="+44">🇬🇧 +44</option>
+        <option value="+61">🇦🇺 +61</option>
+        <option value="+49">🇩🇪 +49</option>
+        <option value="+33">🇫🇷 +33</option>
+        <option value="+91">🇮🇳 +91</option>
+        <option value="+81">🇯🇵 +81</option>
+        <option value="+86">🇨🇳 +86</option>
+        <option value="+55">🇧🇷 +55</option>
+        <option value="+52">🇲🇽 +52</option>
+        <option value="+34">🇪🇸 +34</option>
+        <option value="+39">🇮🇹 +39</option>
+        <option value="+31">🇳🇱 +31</option>
+        <option value="+46">🇸🇪 +46</option>
+        <option value="+47">🇳🇴 +47</option>
+        <option value="+45">🇩🇰 +45</option>
+        <option value="+48">🇵🇱 +48</option>
+        <option value="+351">🇵🇹 +351</option>
+        <option value="+353">🇮🇪 +353</option>
+        <option value="+64">🇳🇿 +64</option>
+        <option value="+65">🇸🇬 +65</option>
+        <option value="+82">🇰🇷 +82</option>
+        <option value="+971">🇦🇪 +971</option>
+        <option value="+966">🇸🇦 +966</option>
+        <option value="+27">🇿🇦 +27</option>
+        <option value="+234">🇳🇬 +234</option>
+        <option value="+254">🇰🇪 +254</option>
+        <option value="+62">🇮🇩 +62</option>
+        <option value="+66">🇹🇭 +66</option>
+        <option value="+84">🇻🇳 +84</option>
+        <option value="+63">🇵🇭 +63</option>
+        <option value="+60">🇲🇾 +60</option>
+        <option value="+7">🇷🇺 +7</option>
+        <option value="+380">🇺🇦 +380</option>
+        <option value="+90">🇹🇷 +90</option>
+        <option value="+20">🇪🇬 +20</option>
+        <option value="+972">🇮🇱 +972</option>
+        <option value="+41">🇨🇭 +41</option>
+        <option value="+43">🇦🇹 +43</option>
+        <option value="+32">🇧🇪 +32</option>
+        <option value="+57">🇨🇴 +57</option>
+        <option value="+56">🇨🇱 +56</option>
+        <option value="+54">🇦🇷 +54</option>
+        <option value="+51">🇵🇪 +51</option>
+      </select>
+      <input type="tel" id="gatePhone" placeholder="Phone number" required>
+    </div>
     <button type="submit">🚀 Get the Prompts — Free</button>
   </form>
   <p class="gate-note">No spam. Just prompts. Unsubscribe anytime.</p>
@@ -1179,20 +1244,31 @@ gateForm.addEventListener('submit', (e) => {
   const name = document.getElementById('gateName').value.trim();
   const email = document.getElementById('gateEmail').value.trim();
   const emailInput = document.getElementById('gateEmail');
+  const countryCode = document.getElementById('gateCountryCode').value;
+  const phoneRaw = document.getElementById('gatePhone').value.trim().replace(/[\s\-\(\)]/g, '');
+  const phoneInput = document.getElementById('gatePhone');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  if (!name || !email) return;
+  const phoneRegex = /^\d{6,15}$/;
+  if (!name || !email || !phoneRaw) return;
+  let hasError = false;
   if (!emailRegex.test(email)) {
     emailInput.classList.add('invalid');
-    emailInput.focus();
-    return;
+    if (!hasError) { emailInput.focus(); hasError = true; }
   }
+  if (!phoneRegex.test(phoneRaw)) {
+    phoneInput.classList.add('invalid');
+    if (!hasError) { phoneInput.focus(); hasError = true; }
+  }
+  if (hasError) return;
   emailInput.classList.remove('invalid');
-  localStorage.setItem('mc_user', JSON.stringify({ name, email, ts: Date.now() }));
+  phoneInput.classList.remove('invalid');
+  const phone = countryCode + phoneRaw;
+  localStorage.setItem('mc_user', JSON.stringify({ name, email, phone, ts: Date.now() }));
   // Send lead to n8n webhook (fire and forget)
   fetch('https://effortlessai.app.n8n.cloud/webhook/mc-prompts-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, source: 'mission-control-prompts', ts: new Date().toISOString() })
+    body: JSON.stringify({ name, email, phone, source: 'mission-control-prompts', ts: new Date().toISOString() })
   }).catch(() => {}); // Don't block on failure
   gate.style.display = 'none';
   content.classList.add('visible');
@@ -1204,6 +1280,9 @@ checkAccess();
 
 // Clear invalid state on typing
 document.getElementById('gateEmail').addEventListener('input', function() {
+  this.classList.remove('invalid');
+});
+document.getElementById('gatePhone').addEventListener('input', function() {
   this.classList.remove('invalid');
 });
 
