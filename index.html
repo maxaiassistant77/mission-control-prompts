@@ -1576,6 +1576,35 @@ gateForm.addEventListener('submit', (e) => {
   phoneInput.classList.remove('invalid');
   const phone = countryCode + phoneRaw;
 
+  // Spam detection — catch fake/junk submissions
+  const spamWarnings = [];
+  const repeatedChar = /(.)\1{3,}/i; // 4+ repeated chars
+  const allSameDigits = /^(\d)\1+$/; // phone like 8888888888
+  const junkEmailLocal = /^(.)\1{2,}@/i; // email like aaaa@
+  const junkEmailDomain = /@(.)\1{2,}\./i; // domain like @2aaa.
+  const tooShortName = name.length < 2;
+  const singleWordJunk = /^[a-z]{1,3}$/i; // name like "Aaa" or "Ab"
+
+  if (repeatedChar.test(name)) spamWarnings.push('name');
+  if (tooShortName || singleWordJunk.test(name)) spamWarnings.push('name');
+  if (junkEmailLocal.test(email) || junkEmailDomain.test(email) || repeatedChar.test(email.split('@')[0])) spamWarnings.push('email');
+  if (allSameDigits.test(phoneRaw) || repeatedChar.test(phoneRaw)) spamWarnings.push('phone');
+
+  if (spamWarnings.length > 0) {
+    const fields = spamWarnings.join(' and ');
+    const warning = document.createElement('div');
+    warning.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    warning.innerHTML = `
+      <div style="background:var(--bg-card,#1a1a2e);border:1px solid #ff6b6b;border-radius:16px;padding:32px;max-width:400px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">⚠️</div>
+        <h3 style="color:#ff6b6b;font-size:18px;margin-bottom:8px;">Hmm, that doesn't look right</h3>
+        <p style="color:#ccc;font-size:14px;line-height:1.6;margin-bottom:20px;">Your ${fields} ${spamWarnings.length > 1 ? 'don\'t' : 'doesn\'t'} look accurate. Please double-check and try again with your real info — we promise no spam! 🤙</p>
+        <button onclick="this.closest('div[style]').remove()" style="padding:12px 32px;background:var(--accent,#6C63FF);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">Got it, let me fix that</button>
+      </div>`;
+    document.body.appendChild(warning);
+    return;
+  }
+
   // Store pending data and show confirmation modal
   pendingLead = { name, email, phone, countryCode, phoneRaw };
   document.getElementById('confirmName').textContent = name;
