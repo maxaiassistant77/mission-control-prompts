@@ -1560,7 +1560,12 @@ gateForm.addEventListener('submit', (e) => {
   const phoneRaw = document.getElementById('gatePhone').value.trim().replace(/[\s\-\(\)]/g, '');
   const phoneInput = document.getElementById('gatePhone');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  const phoneRegex = /^\d{6,15}$/;
+  const phoneRegex = /^\d{7,15}$/;
+  // US/Canada/Caribbean (+1) must be exactly 10 digits
+  if (countryCode === '+1' && phoneRaw.length !== 10) {
+    phoneInput.classList.add('invalid');
+    if (!hasError) { phoneInput.focus(); hasError = true; }
+  }
   if (!name || !email || !phoneRaw) return;
   let hasError = false;
   if (!emailRegex.test(email)) {
@@ -1588,7 +1593,8 @@ gateForm.addEventListener('submit', (e) => {
   if (repeatedChar.test(name)) spamWarnings.push('name');
   if (tooShortName || singleWordJunk.test(name)) spamWarnings.push('name');
   if (junkEmailLocal.test(email) || junkEmailDomain.test(email) || repeatedChar.test(email.split('@')[0])) spamWarnings.push('email');
-  if (allSameDigits.test(phoneRaw) || repeatedChar.test(phoneRaw)) spamWarnings.push('phone');
+  const tooFewUniqueDigits = new Set(phoneRaw).size <= 3; // only 3 or fewer unique digits in the whole number
+  if (allSameDigits.test(phoneRaw) || repeatedChar.test(phoneRaw) || tooFewUniqueDigits) spamWarnings.push('phone');
 
   if (spamWarnings.length > 0) {
     const fields = spamWarnings.join(' and ');
