@@ -1,6 +1,6 @@
 // Emergency lead capture - Supabase backup (always saves) + GHL (when key works)
 
-const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-b1f81d50-c314-44de-b9cb-2f092cdde593';
+const GHL_API_KEY = process.env.GHL_API_KEY || 'pit-5e298b3d-a0c2-4612-b583-731fbd24711d';
 const GHL_LOCATION_ID = 'QFjnAi2H2A9Cpxi7l0ri';
 const SUPABASE_URL = 'https://xyvlhjbmpvvczjphqwyf.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
