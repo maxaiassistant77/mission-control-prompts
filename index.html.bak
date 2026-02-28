@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Zach's Agent Command Kit Free | Zach Babiarz</title>
-<meta name="description" content="Free Agent Command Kit: prompts, skills, and tools to set up your AI agent the right way. From Zach Babiarz.">
+<title>Mission Control Prompts — Build Your AI Command Center | Zach Babiarz</title>
+<meta name="description" content="Free prompts to build your own AI-powered Mission Control dashboard. Copy, paste, and customize.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -477,7 +477,7 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 <!-- ═══════════════ LEAD GATE ═══════════════ -->
 <div id="gate">
   <div class="gate-badge"><span class="dot"></span> Open Source AI Dashboard</div>
-  <h1>AGENT COMMAND KIT<br>PROMPTS, SKILLS<br>& TOOLS</h1>
+  <h1>MISSION CONTROL<br>& SKILL LIBRARY<br>PROMPTS</h1>
   <div class="subtitle">Build Your AI-Powered Command Center</div>
   <form class="gate-form" id="gateForm">
     <input type="text" id="gateName" placeholder="Your first name" required>
@@ -606,7 +606,7 @@ a:hover { color: var(--accent2); text-decoration: underline; }
   <!-- ── INTRO ── -->
   <div class="section">
     <span class="section-number">Introduction</span>
-    <h2>What is the Agent Command Kit?</h2>
+    <h2>What is Mission Control?</h2>
     <p class="lead">Mission Control is a single-file HTML dashboard that serves as your personal command center — tracking goals, projects, revenue, AI agents, and more. All in one place on your desktop.</p>
 
     <div class="features">
@@ -1508,7 +1508,7 @@ approach was refined through iteration.
   <div class="closing">
     <div class="gate-badge" style="margin-bottom:36px"><span class="dot"></span> You're Ready</div>
     <h2>Now Make It Yours</h2>
-    <p style="font-size:16px; color:var(--text-dim); max-width:480px; margin: 0 auto 16px;">These prompts are starting points. The best agent setup is the one built around <em>your</em> life, <em>your</em> goals, <em>your</em> workflow. Customize relentlessly.</p>
+    <p style="font-size:16px; color:var(--text-dim); max-width:480px; margin: 0 auto 16px;">These prompts are starting points. The best Mission Control is the one built around <em>your</em> life, <em>your</em> goals, <em>your</em> workflow. Customize relentlessly.</p>
     <p style="font-size:14px; color:var(--text-dim); max-width:440px; margin: 0 auto 40px;">Change the colors. Add new tabs. Rip out what you don't need. Ask the AI to rebuild sections. This is <em>your</em> command center.</p>
 
     <div class="divider" style="max-width:200px; margin: 32px auto;"></div>
