@@ -598,6 +598,7 @@ a:hover { color: var(--accent2); text-decoration: underline; }
   <div class="section-switcher">
     <button class="active" onclick="switchTab('prompts', this)">📋 Prompts</button>
     <button onclick="switchTab('skills', this)">🛡️ Skills Library <span class="badge">NEW</span></button>
+    <button onclick="switchTab('tools', this)">🔧 Tools Library</button>
   </div>
 
   <!-- ══════ PROMPTS TAB ══════ -->
@@ -1502,7 +1503,90 @@ approach was refined through iteration.
       <p><strong>More skills coming soon.</strong><br>Subscribe to Zach's YouTube for new skill drops and tutorials.</p>
     </div>
 
+
   </div><!-- /tab-skills -->
+
+  <!-- ══════ TOOLS TAB ══════ -->
+  <div id="tab-tools" class="tab-content">
+    <div class="section-header" style="text-align:center; margin-bottom:32px;">
+      <span class="section-number">Tools Library</span>
+      <h2 style="margin:8px 0 4px;">5 Free Tools Every OpenClaw Agent Needs</h2>
+      <p class="lead" style="max-width:520px; margin:0 auto;">These are the exact tools Zach uses with Max. All free to start. Click any tool to get set up.</p>
+    </div>
+
+    <div style="display:grid; gap:20px; max-width:720px; margin:0 auto;">
+
+      <!-- AgentMail -->
+      <div class="skill-card" style="display:flex; align-items:flex-start; gap:20px;">
+        <div style="font-size:36px; line-height:1;">📧</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:18px;">AgentMail</h3>
+            <span class="badge" style="background:#06b6d4; color:#fff;">Free</span>
+          </div>
+          <p style="margin:0 0 10px; color:var(--text-dim); font-size:14px; line-height:1.6;">An email inbox your AI agent can actually use. Send, receive, and manage emails autonomously — no shared accounts, no hacks.</p>
+          <a href="https://agentmail.to" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Get AgentMail →</a>
+        </div>
+      </div>
+
+      <!-- here.now -->
+      <div class="skill-card" style="display:flex; align-items:flex-start; gap:20px;">
+        <div style="font-size:36px; line-height:1;">🌐</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:18px;">here.now</h3>
+            <span class="badge" style="background:#8b5cf6; color:#fff;">Free</span>
+            <span class="badge" style="background:#f59e0b; color:#000;">Sponsor</span>
+          </div>
+          <p style="margin:0 0 10px; color:var(--text-dim); font-size:14px; line-height:1.6;">Instant web publishing for AI agents. Tell your agent to publish something — get a URL back in seconds. Works with any agent: OpenClaw, Codex, Cursor, and more.</p>
+          <a href="https://here.now" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Get here.now →</a>
+        </div>
+      </div>
+
+      <!-- Remotion -->
+      <div class="skill-card" style="display:flex; align-items:flex-start; gap:20px;">
+        <div style="font-size:36px; line-height:1;">🎬</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:18px;">Remotion</h3>
+            <span class="badge" style="background:#f97316; color:#fff;">Free</span>
+          </div>
+          <p style="margin:0 0 10px; color:var(--text-dim); font-size:14px; line-height:1.6;">Generate videos programmatically with React. Your agent can now create, render, and export real video files — no editing software required.</p>
+          <a href="https://remotion.dev" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Get Remotion →</a>
+        </div>
+      </div>
+
+      <!-- Tavily -->
+      <div class="skill-card" style="display:flex; align-items:flex-start; gap:20px;">
+        <div style="font-size:36px; line-height:1;">🔍</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:18px;">Tavily</h3>
+            <span class="badge" style="background:#10b981; color:#fff;">Free</span>
+          </div>
+          <p style="margin:0 0 10px; color:var(--text-dim); font-size:14px; line-height:1.6;">AI-powered web search built specifically for agents. Your agent can search the web, get real-time answers, and cite sources — not just guess from training data.</p>
+          <a href="https://tavily.com" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Get Tavily →</a>
+        </div>
+      </div>
+
+      <!-- Firecrawl -->
+      <div class="skill-card" style="display:flex; align-items:flex-start; gap:20px;">
+        <div style="font-size:36px; line-height:1;">🔥</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:18px;">Firecrawl</h3>
+            <span class="badge" style="background:#FFD93D; color:#000;">Free</span>
+          </div>
+          <p style="margin:0 0 10px; color:var(--text-dim); font-size:14px; line-height:1.6;">Turn any website into clean, AI-ready data with one API call. Tavily finds the page — Firecrawl reads it. Perfect for competitor research, lead enrichment, and building knowledge bases.</p>
+          <a href="https://firecrawl.dev" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Get Firecrawl →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="text-align:center; margin-top:40px; font-size:14px; color:var(--text-muted);">More tools added regularly. Got a recommendation? Drop it in the <a href="https://skool.com/agents-to-life" target="_blank" style="color:var(--accent);">Agents to Life community</a>.</p>
+
+  </div><!-- /tab-tools -->
 
   <!-- ── CLOSING ── -->
   <div class="closing">
