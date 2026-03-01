@@ -1,0 +1,21 @@
+{
+  "name": "mission-control-prompts",
+  "version": "1.0.0",
+  "description": "Mission Control Prompts - Lead capture with Supabase and GoHighLevel integration",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "deploy": "vercel"
+  },
+  "dependencies": {
+    "next": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
