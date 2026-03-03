@@ -311,10 +311,33 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 
 /* ── SECTION SWITCHER ── */
 .section-switcher {
-  display: flex; gap: 8px; margin-bottom: 40px;
+  display: flex; gap: 8px; margin-bottom: 16px;
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 14px; padding: 6px; width: fit-content;
+  margin-left: auto; margin-right: auto;
 }
+
+/* ── PROMPT SUB-NAV ── */
+.prompt-subnav {
+  display: flex; gap: 8px; margin-bottom: 32px;
+  justify-content: center; flex-wrap: wrap;
+}
+.prompt-subnav button {
+  padding: 8px 18px; border: 1px solid var(--border-accent);
+  border-radius: 100px; font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.25s; color: var(--text-dim);
+  background: transparent; display: flex; align-items: center; gap: 6px;
+}
+.prompt-subnav button.active {
+  background: rgba(108,99,255,0.15); color: var(--accent);
+  border-color: var(--accent); box-shadow: 0 0 16px rgba(108,99,255,0.2);
+}
+.prompt-subnav button:not(.active):hover {
+  background: rgba(255,255,255,0.05); color: var(--text); border-color: var(--border);
+}
+.prompt-panel { display: none; }
+.prompt-panel.active { display: block; animation: fadeInUp 0.3s ease; }
 .section-switcher button {
   padding: 12px 24px; border: none; border-radius: 10px;
   font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
@@ -603,6 +626,15 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 
   <!-- ══════ PROMPTS TAB ══════ -->
   <div id="tab-prompts" class="tab-content active">
+
+  <!-- ── PROMPT SUB-NAV ── -->
+  <div class="prompt-subnav">
+    <button class="active" onclick="switchPromptPanel('mission', this)">📋 Mission Control Prompts</button>
+    <button onclick="switchPromptPanel('memory', this)">🧠 Memory Power Pack <span class="badge" style="background:var(--accent2);color:#050508">NEW</span></button>
+  </div>
+
+  <!-- ── PANEL: MISSION CONTROL ── -->
+  <div id="panel-mission" class="prompt-panel active">
 
   <!-- ── INTRO ── -->
   <div class="section">
@@ -946,6 +978,199 @@ Keep all existing localStorage functionality as the primary data layer. The serv
       <p>💡 <strong>Pro tip:</strong> You don't need The Engine to use Mission Control. The HTML file works perfectly standalone. The server just adds superpowers — live weather, backup, and a clean localhost URL.</p>
     </div>
   </div>
+
+  </div><!-- /panel-mission -->
+
+  <!-- ── PANEL: MEMORY POWER PACK ── -->
+  <div id="panel-memory" class="prompt-panel">
+    <div class="section">
+      <span class="section-number">Memory Power Pack</span>
+      <h2>🧠 Ultimate Memory Upgrade</h2>
+      <p class="lead">The most advanced OpenClaw memory system available. Copy-paste this prompt and your agent installs everything — 6 layers of memory, auto-curation, semantic search, and smart token loading. No manual setup required.</p>
+
+      <div class="features" style="margin-bottom:28px;">
+        <div class="feature"><div class="icon">📝</div><div><strong>Layer 1</strong><br>Daily notes auto-written every session</div></div>
+        <div class="feature"><div class="icon">🧠</div><div><strong>Layer 2</strong><br>MEMORY.md — curated long-term memory</div></div>
+        <div class="feature"><div class="icon">🗂️</div><div><strong>Layer 3</strong><br>projects.md — compact project registry</div></div>
+        <div class="feature"><div class="icon">🔍</div><div><strong>Layer 4</strong><br>Vector DB — semantic search (PostgreSQL + pgvector)</div></div>
+        <div class="feature"><div class="icon">⚡</div><div><strong>Layer 5</strong><br>Smart loading — 4K tokens instead of 20K</div></div>
+        <div class="feature"><div class="icon">🔄</div><div><strong>Layer 6</strong><br>Auto-curation cron — MEMORY.md rewrites itself twice a week</div></div>
+      </div>
+
+      <div class="highlight-box" style="margin-bottom:24px;">
+        <p>💡 <strong>Before you run this:</strong> You'll need a free Google Gemini API key for the vector memory layer. Get one in 30 seconds at <a href="https://aistudio.google.com" target="_blank" style="color:var(--accent)">aistudio.google.com</a> — no credit card required.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <div>
+            <div style="font-weight:700; color:var(--text); font-size:15px;">🧠 Ultimate Memory Upgrade Prompt</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">Paste into your OpenClaw chat — agent does the rest</div>
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this, 'memoryUpgradePrompt')">Copy</button>
+        </div>
+        <div class="prompt-text" id="memoryUpgradePrompt">You are about to receive a full memory system upgrade. This will install and configure every layer of the elite memory stack — without touching or deleting anything you already have. Read all instructions carefully, then execute them in order.
+
+---
+
+OVERVIEW — What you are installing
+
+Layer 1: Daily Notes — auto-written session logs (you likely already have this)
+Layer 2: MEMORY.md — curated long-term memory with smart structure (upgrading yours)
+Layer 3: projects.md — compact project registry for fast startup context loading
+Layer 4: Vector DB — PostgreSQL + pgvector semantic memory with AI-powered search
+Layer 5: Smart HEARTBEAT.md loading — 4K tokens instead of 20K per heartbeat
+Layer 6: Twice-weekly auto-curation cron — MEMORY.md rewrites itself automatically
+
+---
+
+STEP 1 — Read what you already have
+
+Read the following files in full:
+- ~/.openclaw/workspace/HEARTBEAT.md
+- ~/.openclaw/workspace/MEMORY.md
+- ~/.openclaw/workspace/AGENTS.md (if it exists)
+
+Note what is already there. You will upgrade, not replace.
+
+---
+
+STEP 2 — Create or upgrade projects.md
+
+Read all files in ~/.openclaw/workspace/memory/ to understand what projects, clients, and tools are already documented.
+
+Then create or overwrite ~/.openclaw/workspace/memory/projects.md with a clean project registry. Include:
+- Every active project with its live URL (if applicable)
+- Current status (live / in progress / blocked)
+- Tech stack (brief)
+- Key notes or blockers
+- File locations on disk
+
+Format it as a markdown table or clean sections. Keep it under 80 lines total. This file loads at every heartbeat so lean is good.
+
+If you cannot find enough info to populate it, ask the user: "What are your 3 to 5 most active projects right now? Give me the name, what it does, and the URL if it is live."
+
+---
+
+STEP 3 — Upgrade HEARTBEAT.md
+
+Read the current HEARTBEAT.md. Add the following block at the very TOP of the file (above everything else). Do not remove anything that is already there:
+
+## SMART MEMORY LOADING (do this first, every heartbeat)
+Before anything else, load context efficiently:
+1. Read memory/projects.md — compact project registry (~1K tokens)
+2. Read MEMORY.md — curated long-term memory (~3K tokens)
+3. Only load daily notes (memory/YYYY-MM-DD.md) when asked about specific past work
+4. Only run vector search when a specific question about past work comes up
+
+This gives full context at ~10% of the token cost. Daily notes are archives, not runtime docs.
+
+---
+
+STEP 4 — Upgrade MEMORY.md
+
+Read the current MEMORY.md. Add a new section called "## Memory System" (if it does not already exist) with the following content:
+
+## Memory System
+- Daily notes: memory/YYYY-MM-DD.md — raw session logs, written automatically, load on-demand
+- MEMORY.md: curated long-term brain — load every heartbeat (~3K tokens)
+- projects.md: compact project registry — load every heartbeat (~1K tokens)
+- Vector DB: PostgreSQL + pgvector, semantic search via AI embeddings
+- Smart loading: only projects.md + MEMORY.md at startup. Daily notes + vector search = on-demand only. Saves ~80% token cost vs loading everything.
+
+Also update the Last updated date at the top of MEMORY.md to today's date.
+
+---
+
+STEP 5 — Install Vector Memory (PostgreSQL + pgvector)
+
+5a — Check if PostgreSQL is installed
+Run: which psql
+If not found, install it:
+- macOS: brew install postgresql@17 && brew services start postgresql@17
+- Linux: sudo apt install postgresql postgresql-contrib
+
+5b — Check if the vector-memory skill is installed
+Run: ls ~/.openclaw/workspace/skills/vector-memory/ 2>/dev/null
+If the folder does not exist, install it:
+Run: clawhub install vector-memory
+
+5c — Set up the database
+Run: psql postgres -c "CREATE DATABASE openclaw_memory;" 2>/dev/null || echo "DB may already exist"
+Run: psql openclaw_memory -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+5d — Check for Gemini API key
+The vector memory system uses Google Gemini for embeddings (free tier, no credit card needed).
+Run: echo $GEMINI_API_KEY
+If empty, ask the user: "Do you have a Google Gemini API key? Get one free at aistudio.google.com. Paste it here and I will configure it."
+Once you have the key, configure it per the vector-memory skill README.
+
+5e — Run the initial memory flush
+Run: python3 ~/.openclaw/workspace/skills/vector-memory/scripts/memory_flush.py
+Report back how many memories were stored.
+
+---
+
+STEP 6 — Add twice-weekly auto-curation cron
+
+Use the OpenClaw cron tool to create a job with these settings:
+- Name: "Twice-Weekly MEMORY.md Auto-Curation"
+- Schedule: cron expression "0 5 * * 3,0" (Wednesday and Sunday at 5am local time)
+- Session target: isolated
+- Model: anthropic/claude-sonnet-4-20250514 (or your default model)
+- Delivery: announce to your chat when complete
+
+The cron agent message:
+
+Your job is to auto-curate MEMORY.md.
+
+STEP 1: Find the 7 most recent daily note files. Run: ls ~/.openclaw/workspace/memory/*.md | sort | tail -10 then read each one.
+STEP 2: Read current MEMORY.md in full.
+STEP 3: Identify what is stale (old stats, outdated project info), what is new (decisions, clients, launches), and what should be removed.
+STEP 4: Rewrite MEMORY.md with accurate, current information. Keep the same sections. Update numbers. Add new sections for major new things. Remove outdated info. Update the Last Updated date. Max 400 lines.
+STEP 5: Run: python3 ~/.openclaw/workspace/skills/vector-memory/scripts/memory_flush.py
+STEP 6: Update projects.md with any status changes you found.
+Announce a brief summary when done.
+
+---
+
+STEP 7 — Add vector memory flush to HEARTBEAT.md
+
+Add this to your HEARTBEAT.md near the bottom:
+
+## Vector Memory Flush (every heartbeat)
+Run: python3 ~/.openclaw/workspace/skills/vector-memory/scripts/memory_flush.py
+If total_stored = 0, that is fine — means nothing new to embed.
+
+---
+
+STEP 8 — Verify everything works
+
+Run these 4 checks and report results:
+1. python3 ~/.openclaw/workspace/skills/vector-memory/scripts/memory_search.py "recent projects"
+2. cat ~/.openclaw/workspace/memory/projects.md
+3. head -20 ~/.openclaw/workspace/HEARTBEAT.md
+4. List cron jobs to confirm the auto-curation cron was created
+
+---
+
+STEP 9 — Summary report
+
+When all steps are complete, give me a summary:
+- Layers installed (checkmark each one)
+- Number of memories in vector DB
+- Projects in projects.md
+- Cron scheduled for (next run date)
+- Any steps that failed or need manual attention
+
+---
+
+You now have the most advanced OpenClaw memory system available. Your agent will load context in 4K tokens instead of 20K+ (80% savings), search memory semantically, auto-update its long-term memory twice a week, and never forget what you have built, decided, or discussed.
+
+Let's go.</div>
+      </div>
+    </div>
+  </div><!-- /panel-memory -->
 
   </div><!-- /tab-prompts -->
 
@@ -1784,6 +2009,13 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 });
 
 // ── Tab Switcher ──
+function switchPromptPanel(panel, btn) {
+  document.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.prompt-subnav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + panel).classList.add('active');
+  btn.classList.add('active');
+}
+
 function switchTab(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.section-switcher button').forEach(b => b.classList.remove('active'));
